@@ -23,7 +23,7 @@ git branch -a | grep linux-6
   remotes/origin/linux-6.8.y
   remotes/origin/linux-6.9.y
 
-​git checkout linux-5.12.y
+​git checkout linux-6.9.y
 ```
 - Latest stable branch as of 08/09/2024 is linux-6.9.y
 - [List of all tree's latest branches](https://www.kernel.org/)
