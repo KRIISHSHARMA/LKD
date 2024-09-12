@@ -27,3 +27,32 @@ git branch -a | grep linux-6
 ```
 - Latest stable branch as of 08/09/2024 is linux-6.9.y
 - [List of all tree's latest branches](https://www.kernel.org/)
+
+# Copying the Configuration for Current Kernel from /boot
+
+- copy the kernel configuration file from your existing system to the kernel tree to update the configuration
+
+``` 
+ls /boot                                                                              
+config-6.8.0-44-generic  grub  initrd.img  initrd.img-6.8.0-44-generic  initrd.img.old  lost+found  System.map-6.8.0-44-generic  vmlinuz  vmlinuz-6.8.0-44-generic  vmlinuz.old
+
+cp /boot/config-6.8.0-44-generic .config
+```
+
+# Building the kernel
+
+```
+make oldconfig
+```
+- This command updates your existing kernel configuration based on the latest changes in the source code. It prompts you only for new options that were added since the last configuration file was created. This is useful if you already have a .config file (from a previous build or your system's default kernel configuration) and just want to bring it up to date.
+
+```
+lsmod > /tmp/my-lsmod
+make LSMOD=/tmp/my-lsmod localmodconfig
+```
+- This command creates a new .config file based on the modules currently loaded on your system. It examines the modules loaded by the running kernel (lsmod) and builds a configuration file tailored to only those modules. This trims down the kernel by disabling drivers and features that your system doesn’t need, resulting in a leaner kernel with potentially faster boot times and less resource usage.
+
+```
+make -j3 all
+```
+-  If you skip the make oldconfig or make localmodconfig step and directly run make all, the build process will likely invoke make oldconfig internally. However, it might prompt you interactively during the build to make choices about new kernel options. This interrupts the build process and can be confusing if you're unfamiliar with kernel configuration options.
