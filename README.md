@@ -56,3 +56,31 @@ make LSMOD=/tmp/my-lsmod localmodconfig
 make -j3 all
 ```
 -  If you skip the make oldconfig or make localmodconfig step and directly run make all, the build process will likely invoke make oldconfig internally. However, it might prompt you interactively during the build to make choices about new kernel options. This interrupts the build process and can be confusing if you're unfamiliar with kernel configuration options.
+
+## Error 
+
+- It was likely because I copied a configuration file from a different Linux tree into my latest Linux stable version.
+
+## Solution 
+
+- Make sure you have all the necessary development tools and kernel build dependencies installed.
+make defconfig
+
+```
+sudo apt-get install build-essential libncurses-dev bison flex libssl-dev libelf-dev
+```
+
+- Use the default configuration for your system . Once the configuration is done, start the build process. You can specify the number of parallel jobs with -j to speed up the build (use nproc to detect the number of available cores).
+
+```
+make defconfig
+make -j$(nproc)
+```
+
+- If everyting goes well you will recieve logs similar to this
+
+```
+Kernel: arch/x86/boot/bzImage is ready  (#1)
+```
+
+
