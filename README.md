@@ -83,4 +83,38 @@ make -j$(nproc)
 Kernel: arch/x86/boot/bzImage is ready  (#1)
 ```
 
+# Installing the New Kernel
+
+- Installing the new kernel 
+
+```
+su -c "make modules_install install"
+
+make modules_install: This step installs the kernel modules (driver files).
+make install: This installs the compiled kernel, copies the necessary files to /boot, and updates the bootloader configuration.
+```
+
+- capture and filter dmesg logs (kernel ring buffer messages) into different files, each with a specific focus.
+
+```
+sudo su 
+
+dmesg -t > dmesg_current
+dmesg -t -k > dmesg_kernel
+dmesg -t -l emerg > dmesg_current_emerg
+dmesg -t -l alert > dmesg_current_alert
+dmesg -t -l crit > dmesg_current_crit
+dmesg -t -l err > dmesg_current_err
+dmesg -t -l warn > dmesg_current_warn
+dmesg -t -l info > dmesg_current_info
+```
+
+- In general, dmesg should be clean, with no emerg, alert, crit, and err level messages. If you see any of these, it might indicate some hardware and/or kernel problem.
+- If the dmesg_current is zero length, it is very likely that secure boot is enabled on your system. When secure boot is enabled, you won’t be able to boot the newly installed kernel, as it is unsigned. You can disable secure boot temporarily on startup with MOK manager. Your system should already have mokutil.
+
+**When secure boot is enabled, you won’t be able to boot the newly installed kernel, as it is unsigned. You can disable secure boot temporarily on startup with MOK manager. Your system should already have mokutil , if not install it `sudo apt install mokutil`**
+
+
+
+
 
