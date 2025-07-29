@@ -110,10 +110,5 @@ dmesg -t -l info > dmesg_current_info
 
 - In general, dmesg should be clean, with no emerg, alert, crit, and err level messages. If you see any of these, it might indicate some hardware and/or kernel problem.
 - If the dmesg_current is zero length, it is very likely that secure boot is enabled on your system. When secure boot is enabled, you won’t be able to boot the newly installed kernel, as it is unsigned. You can disable secure boot temporarily on startup with MOK manager. Your system should already have mokutil.
-
+- check if secure boot is enabled or disabled using `mokutil --sb-state`
 **When secure boot is enabled, you won’t be able to boot the newly installed kernel, as it is unsigned. You can disable secure boot temporarily on startup with MOK manager. Your system should already have mokutil , if not install it `sudo apt install mokutil`**
-
-
-
-
-
